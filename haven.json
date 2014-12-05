@@ -1,0 +1,23 @@
+{
+	"name": "mutation-summary",
+	"version": "0.1.0",
+	"artifacts":[
+		{
+			"files": [
+				{"src/mutation-summary.js":"mutation-summary.js"}
+			]
+		},{
+            "id": "tree-mirror",
+            "files": [
+                {"util/tree-mirror.js": "tree-mirror.js"}
+            ]
+        }
+	],
+	"repositories": {
+		"distribution": [
+			{
+				"url": "http://build.revsys.co.uk/haven-repository"
+			}
+		]
+	}
+}

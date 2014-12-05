@@ -18,7 +18,10 @@
   "license": "Apache 2.0",
   "devDependencies": {
     "chai": "*",
-    "mocha": "*"
+    "mocha": "*",
+    "grunt": "~0.4.5",
+    "grunt-haven": "~0.1.4",
+    "grunt-cli": "~0.1.13"
   }
 }
 
