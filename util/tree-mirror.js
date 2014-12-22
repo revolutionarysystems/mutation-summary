@@ -159,6 +159,15 @@ var TreeMirrorClient = (function () {
             this.mutationSummary = undefined;
         }
     };
+    
+    TreeMirrorClient.prototype.reinitialize = function(){
+        var target = this.target;
+        var rootId = this.serializeNode(target).id;
+        var children = [];
+        for (var child = target.firstChild; child; child = child.nextSibling)
+            children.push(this.serializeNode(child, true, true));
+        this.mirror.initialize(rootId, children);
+    }
 
     TreeMirrorClient.prototype.rememberNode = function (node) {
         var id = this.nextId++;
@@ -170,19 +179,24 @@ var TreeMirrorClient = (function () {
         this.knownNodes.delete(node);
     };
 
-    TreeMirrorClient.prototype.serializeNode = function (node, recursive) {
+    TreeMirrorClient.prototype.serializeNode = function (node, recursive, ignoreKnownNodes) {
         if (node === null)
             return null;
 
         var id = this.knownNodes.get(node);
-        if (id !== undefined) {
+        if (!ignoreKnownNodes && id !== undefined) {
             return { id: id };
         }
 
         var data = {
             nodeType: node.nodeType,
-            id: this.rememberNode(node)
         };
+        
+        if(id === undefined){
+            data.id = this.rememberNode(node);
+        }else{
+            data.id = id;
+        }
 
         switch (data.nodeType) {
             case Node.DOCUMENT_TYPE_NODE:
@@ -210,7 +224,7 @@ var TreeMirrorClient = (function () {
                     data.childNodes = [];
 
                     for (var child = elm.firstChild; child; child = child.nextSibling)
-                        data.childNodes.push(this.serializeNode(child, true));
+                        data.childNodes.push(this.serializeNode(child, true, ignoreKnownNodes));
                 }
                 break;
         }
