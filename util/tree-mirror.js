@@ -7,6 +7,7 @@ var TreeMirror = (function () {
         this.idMap = {};
     }
     TreeMirror.prototype.initialize = function (rootId, children) {
+        this.idMap = {};
         this.idMap[rootId] = this.root;
 
         for (var i = 0; i < children.length; i++)
